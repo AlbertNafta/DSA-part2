@@ -19,7 +19,7 @@
 
 //Title,Price,User_id,profileName,review/helpfulness,review/score,review/time,review/summary,review/text
 using namespace std;
-int cnt =0 ;
+int cnt =0 ;//dem so node 
 struct Data{
 	string id;
     string title;
@@ -64,22 +64,30 @@ void addNode(Book_ID* &pHead, Data x){
 
 void loadData(Book_ID* &head){
     ifstream fi;
-    fi.open("Books_ratingS.CSV");
+    fi.open("Books_rating (1).CSV");
  	int q = 0;
     while(!fi.eof())
     {
     	
     	Data x;
     	getline(fi,x.id,',');
+    	cout<<x.id<<endl;
     	getline(fi,x.title,',');
+    	
     	getline(fi,x.price,',');
+    	
     	getline(fi,x.user_id,',');
+    	
     	getline(fi,x.profileName,',');
+    	
     	getline(fi,x.review_helpfulness,',');
+  
+
     	getline(fi,x.review_score,',');
     	getline(fi,x.review_time,',');
     	getline(fi,x.review_sumary,',');
     	getline(fi,x.review_text,'\n');
+    	
     	if(q == 0){
     		q =1;
     		continue;
@@ -91,7 +99,7 @@ void loadData(Book_ID* &head){
     fi.close();
 }
 
-void LNRlexi(Book_ID* pHead, vector<Data> &a){
+void LNRlexi(Book_ID* pHead, vector<Data> &a){ //do nothing
     if (!pHead) return;
     a.push_back(pHead->data);
     LNRlexi(pHead->next, a);
@@ -104,24 +112,24 @@ void saveData(Book_ID *&pHead){
   
     fout.open("sorted_books_rating.CSV" );
 	
-  	vector <Data> a;
-    LNRlexi(pHead, a);
+  	//vector <Data> a;
+    //LNRlexi(pHead, a);
     fout<<"ID,Title,Price,User_id,profileName,review/helpfulness,review/score,review/time,review/summary,review/text\n";
 
-    int q=0;
-    for (int i = 0; i < a.size(); i++){
+    Book_ID *cur = pHead;
+    for (int i = 0; i < cnt; i++){
 
-            fout<< a[i].id << ","
-            << a[i].title << ","
-            << a[i].price << ","
-            << a[i].user_id << ","
-			<< a[i].profileName << ","
-			<< a[i].review_helpfulness << ","
-			<< a[i].review_score << ","
-			<< a[i].review_time << ","
-			<< a[i].review_sumary << ","  
-            << a[i].review_text << "\n";
-            
+            fout<< cur->data.id << ","
+            << cur->data.title << ","
+            << cur->data.price << ","
+            << cur->data.user_id << ","
+			<< cur->data.profileName << ","
+			<< cur->data.review_helpfulness << ","
+			<< cur->data.review_score << ","
+			<< cur->data.review_time << ","
+			<< cur->data.review_sumary << ","  
+            << cur->data.review_text << "\n";
+            cur=cur->next;
     }
 	fout<<endl;
 	fout.close();
@@ -197,7 +205,7 @@ void merge(Book_ID *&head, int p, int q, int r) {
   	cur11 = access1(head1,i);
   	cur22 = access2(head2,j);
   	cur0 = access(head,k);
-    if (cur11->data.id < cur22->data.id) { //L[i] <= M[j]
+    if (cur11->data.id <= cur22->data.id) { //L[i] <= M[j]
       cur0->data = cur11->data;
       //arr[k] = L[i];
       i++;
@@ -254,9 +262,13 @@ void destruct(Book_ID* &pHead){
 
 int main(){
 	Book_ID *head = NULL;
-	loadData(head);
 	
+	loadData(head);
+	Book_ID *cur = head;
+
 	mergeSort(head, 0,cnt - 1);
+
 	saveData(head);
-	destruct;
+
+	destruct(head);
 }
