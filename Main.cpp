@@ -1,4 +1,4 @@
-#include "Header.h"
+#include "Functions.cpp"
 
 int main(){
 	Book_ID *head = NULL;

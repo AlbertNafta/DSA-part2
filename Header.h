@@ -1,7 +1,18 @@
-#include<iostream>
-#include<string> 
+#include <iostream>
+#include<thread>
+#pragma comment(lib, "Winmm.lib")
+#include <conio.h>
+#include<time.h>
+#include<string>
+#include <windows.h>
+#include<unistd.h>
+#include<bits/stdc++.h>
+#include<conio.h>
+#include<math.h>
+#include <cstdlib>
+#include <ctime>
 #include<vector>
-#include<fstream>
+#include <sstream>
 using namespace std;
 
 int cnt = 0 ;
