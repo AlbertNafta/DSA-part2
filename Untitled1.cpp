@@ -64,14 +64,14 @@ void addNode(Book_ID* &pHead, Data x){
 
 void loadData(Book_ID* &head){
     ifstream fi;
-    fi.open("Books_rating (1).CSV");
+    fi.open("test.CSV");
  	int q = 0;
     while(!fi.eof())
     {
     	
     	Data x;
     	getline(fi,x.id,',');
-    	cout<<x.id<<endl;
+    	
     	getline(fi,x.title,',');
     	
     	getline(fi,x.price,',');
@@ -260,15 +260,81 @@ void destruct(Book_ID* &pHead){
     delete tmp;
 }
 
+void searchByName(Book_ID* &head)
+{
+	system("cls");
+	string name;
+	cout<<"Enter book's name: ";
+	cin.ignore();
+	getline(cin,name);
+	Book_ID* cur = head;
+	int ok=0;
+	cout<<"Searching..."<<endl;
+	while(cur!=NULL)
+	{
+		if(cur->data.title==name){
+			ok=1;
+			break;
+		}
+		cur = cur->next;
+	}
+	if(ok==1)cout<<"Exist";
+	else cout<<"Not exist";
+	cout<<"\nPress any to continue...";
+	getch();
+	system("cls");
+}
+
+void searchByID(Book_ID *&head){
+	system("cls");
+	string id;
+	cout<<"Enter book's Id: ";
+	cin>>id;
+	Book_ID* cur = head;
+	int ok=0;
+	cout<<"Searching..."<<endl;
+	while(cur!=NULL)
+	{
+		if(cur->data.id==id){
+			ok=1;
+			break;
+		}
+		cur = cur->next;
+	}
+	if(ok==1)cout<<"Exist";
+	else cout<<"Not exist";
+	cout<<"\nPress any to continue...";
+	getch();
+	system("cls");
+}
+
+void menu(Book_ID *&head){
+	int choice;
+	system("cls");
+	cout<<"Done !";
+	sleep(1);
+	system("cls");
+	do{
+		cout<<"1. Search by name"<<endl;
+		cout<<"2. Search by ID of book"<<endl;
+		cout<<"0. Exit"<<endl;
+		cout<<"I choose: ";
+		cin>>choice;
+		if(choice==1)searchByName(head);
+		if(choice==2)searchByID(head);
+		system("cls");
+	}while(choice!=0);
+}
+
 int main(){
 	Book_ID *head = NULL;
-	
+	cout<<"Sorting...";
 	loadData(head);
 	Book_ID *cur = head;
 
 	mergeSort(head, 0,cnt - 1);
 
 	saveData(head);
-
+	menu(head);
 	destruct(head);
 }
